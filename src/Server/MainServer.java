@@ -1,10 +1,7 @@
 package Server;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.Date;
 
 public class MainServer {
@@ -15,22 +12,27 @@ public class MainServer {
             DatagramSocket dSocket = new DatagramSocket(3000);
             byte[] bufferIn = new byte[256];
 
-            DatagramPacket inPacket = new DatagramPacket(bufferIn, bufferIn.length);
-            dSocket.receive(inPacket);
+            DatagramPacket dpi = new DatagramPacket(bufferIn, bufferIn.length);
+            dSocket.receive(dpi);
 
-            InetAddress clientAddress = inPacket.getAddress();
-            int clientPort=inPacket.getPort();
-             String messageIn = new String(inPacket.getData());
+            System.out.println("Ricezione effettuata");
+            String messageIn = new String(dpi.getData(), dpi.getLength());
+            InetAddress clientAddress = dpi.getAddress();
+            int clientPort=dpi.getPort();
 
-             System.out.println("SONO IL CLIENT" + clientAddress +":" +clientPort +">" + messageIn);
+            DatagramPacket dpo = new DatagramPacket(messageIn.getBytes(), messageIn.length(), clientAddress,clientPort);
 
-            Date d=new Date();
 
-             messageOut
+
+            System.out.println("SONO IL CLIENT" + clientAddress +":" +clientPort +">" + messageIn);
+        } catch (BindException e) {
+            System.out.println("porta occupata");
+
         } catch (SocketException e) {
             throw new RuntimeException(e);
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("errore invio pacchetto");
         }
 
     }

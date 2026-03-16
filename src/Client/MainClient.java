@@ -10,7 +10,7 @@ public class MainClient {
 
         try {
             int port = 3000;
-            InetAddress serverAddress = InetAddress.getLocalHost();
+            InetAddress serverAddress = InetAddress.getLocalHost(); //il server
             DatagramSocket dSocket = new DatagramSocket();
 
 
@@ -19,15 +19,14 @@ public class MainClient {
             dSocket.send(dpo);
 
         } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+        System.out.println("Server non trovato");
         } catch (SocketException e) {
-            throw new RuntimeException(e);
+            System.out.println("Errore nell'invio del messaggio");
         } catch (IOException e) {
 
             throw new RuntimeException(e);
         }
-        DatagramPacket outPacket = new DatagramPacket(message.getBytes());
-        dSocket.send(outPacket);
+
 
     }
 }
