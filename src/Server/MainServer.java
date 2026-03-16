@@ -16,15 +16,20 @@ public class MainServer {
             dSocket.receive(dpi);
 
             System.out.println("Ricezione effettuata");
+
             String messageIn = new String(dpi.getData(), dpi.getLength());
             InetAddress clientAddress = dpi.getAddress();
+
+
             int clientPort=dpi.getPort();
 
-            DatagramPacket dpo = new DatagramPacket(messageIn.getBytes(), messageIn.length(), clientAddress,clientPort);
-
-
-
             System.out.println("SONO IL CLIENT" + clientAddress +":" +clientPort +">" + messageIn);
+
+            DatagramPacket dpo = new DatagramPacket(messageIn.getBytes(), messageIn.length(), clientAddress,clientPort);
+            dSocket.send(dpo);
+            System.out.println("Risposta inviata");
+
+
         } catch (BindException e) {
             System.out.println("porta occupata");
 
